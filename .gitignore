@@ -348,3 +348,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+craftersmine.Valknut.Server/launchPatchedMinecraft.cmd
+craftersmine.Valknut.Server/notes.txt
