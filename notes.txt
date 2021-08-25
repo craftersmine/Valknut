@@ -1,0 +1,46 @@
+NOTES:
+* Do not forget to extract Property.class from authlib
+* For system to work, replace all links to *.mojang.com servers to yours
+* For skins to work replace Property.class in authlib with mine
+  Also replace one of .mojang.com or .minecraft.net domains to your in order to say Minecraft
+  that your server is valid and whitelisted
+
+
+CURRENT BUGS:
+BUG: Cape is using skin texture. I really don't understand it! When requesting image through browser or Insomnia using
+     link in payload, proper skin is downloading, but in game used skin texture... Still needed to investigate it.
+
+
+
+FIXES NEEDED ASAP:
+
+
+
+
+IMPLEMENT:
+
+
+
+
+FIXED:
+FXD: serverId SQL column max length. How long it should be? No idea, check through debugger (Maybe 64?)
+     -  Data length is 40-41. DB length set to 48
+FXD: Fixed path to user skin. Path contained "capes" instead "skins", it might be issue with skin signature
+     in Yggdrasil
+FXD: Fixed cape payload, game tried to draw cape, but it had skin texture. EmbedIO supports only one static folder?
+
+
+
+CHECK:
+
+
+
+
+IMPLEMENTED:
+IMPD: Offline authentication and skin request
+IMPD: Mojang Authentication server-alike schema
+IMPD: Authentication and login on server with online-mode=true
+IMPD: Skins on servers with online-mode=true
+IMPD: Skin and cape upload to server
+IMPD: Server user registration api
+IMPD: Get downloadable data and files
