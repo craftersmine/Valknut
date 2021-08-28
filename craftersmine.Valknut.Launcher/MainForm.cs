@@ -26,22 +26,31 @@ namespace craftersmine.Valknut.Launcher
 
         private async void loginButton_Click(object sender, EventArgs e)
         {
+            waitAnim.Value = 30;
             loginForm.Enabled = false;
             waitAnim.Visible = true;
             var response = await Authenticator.Authenticate(emailBox.Text, passwordBox.Text);
+            waitAnim.Value = 50;
             AuthenticationResponse authenticationResponse = null;
             if (response is AuthenticationResponse)
             {
+                waitAnim.Value = 100;
                 authenticationResponse = (AuthenticationResponse)response;
                 MessageBox.Show(authenticationResponse.SelectedProfile.Name + " : " + authenticationResponse.SelectedProfile.Id);
             }
             else
             {
+                waitAnim.Value = 0;
                 var errResp = (ErrorResponse)response;
                 MessageBox.Show(errResp.ErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             waitAnim.Visible = false;
             loginForm.Enabled = true;
+        }
+
+        private void registerButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(LauncherSettings.RegistrationLink);
         }
     }
 }

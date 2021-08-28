@@ -28,6 +28,10 @@ namespace craftersmine.Valknut.Launcher
         /// </summary>
         public static int ServerPort { get; } = 80;
 
+        /// <summary>
+        /// Gets registration link
+        /// </summary>
+        public static string RegistrationLink { get; } = "about:blank";
 
 
         public static string GetServerAddress()
