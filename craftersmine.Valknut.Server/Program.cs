@@ -29,63 +29,124 @@ namespace craftersmine.Valknut.Server
             FileLogger fileLogger = new FileLogger("logs/valknut.log", true);
             Logger.RegisterLogger(fileLogger);
 
-            Logger.Info("Valknut Server (c) craftersmine 2021   |   v1.0-dev");
-            Logger.Info("Initializing Valknut Server...");
-            if (!File.Exists("server-config.json"))
+            try
             {
-                Logger.Warn("No server configuration found! It might be lost or removed, check the file to configure server properly!");
-                ServerConfig.InitializeDefaultConfig().SaveConfig("server-config.json");
+                Logger.Info("Valknut Server (c) craftersmine 2021   |   v1.0-dev");
+                Logger.Info("Initializing Valknut Server...");
+                if (!File.Exists("server-config.json"))
+                {
+                    Logger.Warn("No server configuration found! It might be lost or removed, check the file to configure server properly!");
+                    ServerConfig.InitializeDefaultConfig().SaveConfig("server-config.json");
+                }
+
+                Logger.Info("Loading server coniguration...");
+                Config = ServerConfig.LoadConfig("server-config.json");
+
+                Logger.Info("Creating file structure...");
+                if (!Directory.Exists(Config.PathsConfig.ContentPath))
+                    Directory.CreateDirectory(Config.PathsConfig.ContentPath);
+
+                string skinsPath = Path.Combine(Config.PathsConfig.ContentPath, "skins");
+                string capesPath = Path.Combine(Config.PathsConfig.ContentPath, "capes");
+                string minecraftClientsPath = Path.Combine(Config.PathsConfig.ContentPath, "clients");
+                if (!Directory.Exists(skinsPath))
+                    Directory.CreateDirectory(skinsPath);
+                if (!Directory.Exists(capesPath))
+                    Directory.CreateDirectory(capesPath);
+                if (!Directory.Exists(minecraftClientsPath))
+                    Directory.CreateDirectory(minecraftClientsPath);
+
+                if (!File.Exists(Path.Combine(minecraftClientsPath, "clients-metadata.json")))
+                    ClientsHelper.CreateDefaultMetadata();
+
+                Logger.Info("Opening MySQL database connection to " + Config.DbConnectionConfig.Host + "...");
+                DatabaseConnection = new DatabaseConnection();
+                DatabaseConnection.OpenConnection();
+
+                Logger.Info("Loading Web Server at " + Config.WebServerConfig.BindAddress + ":" + Config.WebServerConfig.Port + "...");
+                WebServer webServer = new WebServer()
+                    .WithWebApi("/valknut/auth/", c =>
+                    {
+                        c.WithController<AuthenticationController>();
+                    })
+                    .WithWebApi("/valknut/session/", c =>
+                    {
+                        c.WithController<GameSessionController>();
+                    })
+                    .WithWebApi("/valknut/api/", c =>
+                    {
+                        c.WithController<ApiController>();
+                    })
+                    //.WithStaticFolder("/valknut/textures/skins/", Config.PathsConfig.SkinsPath, false)
+                    .WithStaticFolder("/valknut/textures/", Config.PathsConfig.ContentPath, false, c =>
+                    {
+                        c.ContentCaching = false;
+                    });
+
+                webServer.StateChanged += WebServerStateChanged;
+
+                webServer.Start();
+
+                Console.ReadLine();
             }
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex, "Server", "Valknut server has crashed!");
+                WriteCrashlog(ex);
+            }
+        }
 
-            Logger.Info("Loading server coniguration...");
-            Config = ServerConfig.LoadConfig("server-config.json");
+        private static void WriteCrashlog(Exception ex)
+        {
+            if (!Directory.Exists("crashlogs\\"))
+                Directory.CreateDirectory("crashlogs\\");
 
-            Logger.Info("Creating file structure...");
-            if (!Directory.Exists(Config.PathsConfig.ContentPath))
-                Directory.CreateDirectory(Config.PathsConfig.ContentPath);
+            string[] mes = new[] { 
+                "Oops!",
+                "Everything exploded!",
+                "You have been nuked!",
+                "Here some cookies...",
+                "LET'S GO DESTROY THE WORLD!",
+                "Maybe there is some patches?...",
+                "Luck is a failure that failed...",
+                "HAMMER!",
+                "HAMMERTIME!",
+                "Where is my banhammer!",
+                "... --- ...",
+                "Servers is down, literally",
+                "Boop!",
+                "The Ragnarok has come!",
+                "Dark beer, cattle, and cherries!",
+                "No more!"
+            };
 
-            string skinsPath = Path.Combine(Config.PathsConfig.ContentPath, "skins");
-            string capesPath = Path.Combine(Config.PathsConfig.ContentPath, "capes");
-            string minecraftClientsPath = Path.Combine(Config.PathsConfig.ContentPath, "clients");
-            if (!Directory.Exists(skinsPath))
-                Directory.CreateDirectory(skinsPath);
-            if (!Directory.Exists(capesPath))
-                Directory.CreateDirectory(capesPath);
-            if (!Directory.Exists(minecraftClientsPath))
-                Directory.CreateDirectory(minecraftClientsPath);
+            Random rnd = new Random();
+            string ms = mes[rnd.Next(0, mes.Length)];
 
-            if (!File.Exists(Path.Combine(minecraftClientsPath, "clients-metadata.json")))
-                ClientsHelper.CreateDefaultMetadata();
+            string crashlog =
+                "Valknut server has crashed!\r\n" +
+                "\r\n" +
+                ms + "\r\n" +
+                " ========================= \r\n" +
+                ParseExceptions(ex);
 
-            Logger.Info("Opening MySQL database connection to " + Config.DbConnectionConfig.Host + "...");
-            DatabaseConnection = new DatabaseConnection();
-            DatabaseConnection.OpenConnection();
+            string fname = "crashlog_" + DateTime.Now.ToString("ddMMyyyy_hh-mm-ss") + ".log";
+            File.WriteAllText(Path.Combine("crashlogs\\", fname), crashlog);
+        }
 
-            Logger.Info("Loading Web Server at " + Config.WebServerConfig.BindAddress + ":" + Config.WebServerConfig.Port + "...");
-            WebServer webServer = new WebServer()
-                .WithWebApi("/valknut/auth/", c =>
-                {
-                    c.WithController<AuthenticationController>();
-                })
-                .WithWebApi("/valknut/session/", c =>
-                {
-                    c.WithController<GameSessionController>();
-                })
-                .WithWebApi("/valknut/api/", c =>
-                {
-                    c.WithController<ApiController>();
-                })
-                //.WithStaticFolder("/valknut/textures/skins/", Config.PathsConfig.SkinsPath, false)
-                .WithStaticFolder("/valknut/textures/", Config.PathsConfig.ContentPath, false, c =>
-                {
-                    c.ContentCaching = false;
-                });
-
-            webServer.StateChanged += WebServerStateChanged;
-
-            webServer.Start();
-
-            Console.ReadLine();
+        private static string ParseExceptions(Exception ex)
+        {
+            string exc =
+                "Exception: " + ex.GetType().ToString() + "\r\n" +
+                ex.Message + "\r\n" +
+                "Stacktrace: \r\n" +
+                ex.StackTrace + "\r\n" +
+                "Inner exception: \r\n";
+            string inner = "No inner exception.";
+            if (ex.InnerException is not null)
+                inner = ParseExceptions(ex.InnerException);
+            exc += inner;
+            return exc;
         }
 
         private static void WebServerStateChanged(object sender, WebServerStateChangedEventArgs e)
