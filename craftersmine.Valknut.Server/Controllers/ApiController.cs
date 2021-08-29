@@ -171,5 +171,12 @@ namespace craftersmine.Valknut.Server.Controllers
 
             return new GetClientDataResponse() { Client = client };
         }
+
+        [Route(HttpVerbs.Get, "/getBootstrapData")]
+        public Response GetBootstrapData()
+        {
+            var bootstrapData = BootstrapHelper.GetBootstrapData();
+            return new BootstrapDataResponse() { BootstrapData = bootstrapData };
+        }
     }
 }
