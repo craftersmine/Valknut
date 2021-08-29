@@ -33,7 +33,7 @@ namespace craftersmine.Valknut.Server
             BootstrapData bootstrapData = new BootstrapData();
             bootstrapData.Id = "valknut";
             bootstrapData.Version = "1.0.0.0";
-            bootstrapData.Archive = "launcher-1.0.0.zip";
+            bootstrapData.Archive = "launcher-1.0.0.0.zip";
             bootstrapData.Hash = null;
             string bootstrapDir = Path.Combine(Program.Config.PathsConfig.ContentPath, "bootstrap");
             string bootstrapMeta = Path.Combine(bootstrapDir, "bootstrap.xml");
