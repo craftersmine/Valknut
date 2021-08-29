@@ -46,18 +46,23 @@ namespace craftersmine.Valknut.Server
                 if (!Directory.Exists(Config.PathsConfig.ContentPath))
                     Directory.CreateDirectory(Config.PathsConfig.ContentPath);
 
-                string skinsPath = Path.Combine(Config.PathsConfig.ContentPath, "skins");
-                string capesPath = Path.Combine(Config.PathsConfig.ContentPath, "capes");
+                string skinsPath = Path.Combine(Config.PathsConfig.ContentPath, "textures", "skins");
+                string capesPath = Path.Combine(Config.PathsConfig.ContentPath, "textures", "capes");
                 string minecraftClientsPath = Path.Combine(Config.PathsConfig.ContentPath, "clients");
+                string bootstrapPath = Path.Combine(Config.PathsConfig.ContentPath, "bootstrap");
                 if (!Directory.Exists(skinsPath))
                     Directory.CreateDirectory(skinsPath);
                 if (!Directory.Exists(capesPath))
                     Directory.CreateDirectory(capesPath);
                 if (!Directory.Exists(minecraftClientsPath))
                     Directory.CreateDirectory(minecraftClientsPath);
+                if (!Directory.Exists(bootstrapPath))
+                    Directory.CreateDirectory(bootstrapPath);
 
                 if (!File.Exists(Path.Combine(minecraftClientsPath, "clients-metadata.json")))
                     ClientsHelper.CreateDefaultMetadata();
+                if (!File.Exists(Path.Combine(bootstrapPath, "bootstrap.json")))
+                    BootstrapHelper.CreateDefaultBootstrapMeta();
 
                 Logger.Info("Opening MySQL database connection to " + Config.DbConnectionConfig.Host + "...");
                 DatabaseConnection = new DatabaseConnection();
@@ -78,7 +83,7 @@ namespace craftersmine.Valknut.Server
                         c.WithController<ApiController>();
                     })
                     //.WithStaticFolder("/valknut/textures/skins/", Config.PathsConfig.SkinsPath, false)
-                    .WithStaticFolder("/valknut/textures/", Config.PathsConfig.ContentPath, false, c =>
+                    .WithStaticFolder("/valknut/", Config.PathsConfig.ContentPath, false, c =>
                     {
                         c.ContentCaching = false;
                     });
