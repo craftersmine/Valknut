@@ -12,7 +12,8 @@ namespace craftersmine.Valknut.Launcher
         /// Gets launcher title
         /// </summary>
         public static string LauncherTitle { get; } = "Valknut Launcher";
-        public static string LauncherBuild { get; } = "1";
+
+        public const string LauncherBuild = "1";
 
         /// <summary>
         /// Gets launcher server protocol. http - unsecured, https - secured, needs server certificate
