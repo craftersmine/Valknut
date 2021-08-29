@@ -29,20 +29,50 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
         /// </summary>
         private void InitializeComponent()
         {
+            this.status = new System.Windows.Forms.Label();
+            this.progress = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
-            // Form1
+            // status
+            // 
+            this.status.AutoSize = true;
+            this.status.Location = new System.Drawing.Point(12, 9);
+            this.status.Name = "status";
+            this.status.Size = new System.Drawing.Size(44, 13);
+            this.status.TabIndex = 0;
+            this.status.Text = "{status}";
+            // 
+            // progress
+            // 
+            this.progress.Location = new System.Drawing.Point(12, 44);
+            this.progress.MarqueeAnimationSpeed = 200;
+            this.progress.Name = "progress";
+            this.progress.Size = new System.Drawing.Size(432, 23);
+            this.progress.Step = 1;
+            this.progress.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progress.TabIndex = 1;
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(435, 71);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(456, 79);
+            this.Controls.Add(this.progress);
+            this.Controls.Add(this.status);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Valknut Launcher Bootstrapper - 1.0";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Label status;
+        private System.Windows.Forms.ProgressBar progress;
     }
 }
 
