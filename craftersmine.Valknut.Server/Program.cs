@@ -12,6 +12,7 @@ using Swan.Logging;
 using System;
 using System.IO;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace craftersmine.Valknut.Server
@@ -61,7 +62,7 @@ namespace craftersmine.Valknut.Server
 
                 if (!File.Exists(Path.Combine(minecraftClientsPath, "clients-metadata.json")))
                     ClientsHelper.CreateDefaultMetadata();
-                if (!File.Exists(Path.Combine(bootstrapPath, "bootstrap.json")))
+                if (!File.Exists(Path.Combine(bootstrapPath, "bootstrap.xml")))
                     BootstrapHelper.CreateDefaultBootstrapMeta();
 
                 Logger.Info("Opening MySQL database connection to " + Config.DbConnectionConfig.Host + "...");
