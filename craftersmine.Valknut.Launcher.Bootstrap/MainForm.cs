@@ -18,6 +18,7 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
     {
         string address = "";
         string dataDir = "";
+        BootstrapData data;
 
         public MainForm()
         {
@@ -40,7 +41,6 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
         {
             status.Text = "Downloading launcher data...";
             var resp = await HttpHelper.MakeGetRequest(address + "getBootstrapData", null);
-            BootstrapData data;
             resp.ResponseData = resp.ResponseData
                 .Trim(new char[] { '\"', '\r', '\n' });
                 //.Substring(1, resp.ResponseData.Length - 1);
@@ -52,51 +52,65 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
                     data = (BootstrapData)serializer.Deserialize(reader);
                 }
 
-                CheckLauncher(data);
+                CheckLauncher();
             }
-            else Fail((ErrorResponse)resp);
+            else Fail(resp);
         }
 
-        private void CheckLauncher(BootstrapData data)
+        private void CheckLauncher()
         {
             string launcherPath = Path.Combine(dataDir, "launcher.exe");
 
             Version currentVer = Version.Parse(data.Version);
 
             if (!File.Exists(launcherPath))
-                DownloadLauncher(data);
+                DownloadLauncher();
             else
             {
 
             }
         }
 
-        private void DownloadLauncher(BootstrapData data)
+        private void DownloadLauncher()
         {
             status.Text = "Downloading launcher...";
             WebClient webClient = new WebClient();
             webClient.DownloadProgressChanged += launcherDownloadProgressChanged;
-            webClient.DownloadDataCompleted += launcherDownloadCompleted;
+            webClient.DownloadFileCompleted += launcherDownloadCompleted; ;
+            string launcherTempArchiveDir = Path.Combine(dataDir, "temp");
+            if (!Directory.Exists(launcherTempArchiveDir))
+                Directory.CreateDirectory(launcherTempArchiveDir);
+            string launcherTempArchive = Path.Combine(launcherTempArchiveDir, "launcher.zip");
+            webClient.DownloadFileAsync(new Uri(data.Archive), launcherTempArchive);
+            progress.Style = ProgressBarStyle.Continuous;
         }
 
-        private void launcherDownloadCompleted(object sender, DownloadDataCompletedEventArgs e)
+        private void launcherDownloadCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            throw new NotImplementedException();
+            progress.Style = ProgressBarStyle.Marquee;
+            ValidateLauncherArchive();
+        }
+
+        private void ValidateLauncherArchive()
+        {
+            status.Text = "Validating downloaded launcher...";
         }
 
         private void launcherDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            status.Text = string.Format("Downloading launcher... {0}% - {1:F2} MB/{2:F2} MB", e.ProgressPercentage, e.BytesReceived / 1024f / 1024f, e.TotalBytesToReceive / 1024f / 1024f);
+            progress.Value = e.ProgressPercentage;
         }
 
-        private void Fail(ErrorResponse error)
+        private void Fail(Response error)
         {
+            ErrorResponse err;
             using (StringReader reader = new StringReader(error.ResponseData))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(ErrorResponse));
-                error = (ErrorResponse)serializer.Deserialize(reader);
+                err = (ErrorResponse)serializer.Deserialize(reader);
             }
-            MessageBox.Show("Something went wrong during launcher bootstrapping!\r\nPlease try again or contact support!\r\n\r\n" + error.ErrorMessage + "\r\nStatus code: " + error.Error);
+            MessageBox.Show("Something went wrong during launcher bootstrapping!\r\nPlease try again or contact support!\r\n\r\n" + err.ErrorMessage + "\r\nStatus code: " + err.Error);
             Environment.Exit(0);
         }
     }
