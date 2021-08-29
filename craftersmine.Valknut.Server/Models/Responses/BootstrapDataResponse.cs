@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace craftersmine.Valknut.Server.Models.Responses
 {
+    [Serializable]
     public sealed class BootstrapDataResponse : Response
     {
         [JsonProperty("data")]

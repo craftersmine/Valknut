@@ -16,6 +16,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace craftersmine.Valknut.Server.Controllers
 {
@@ -173,10 +174,28 @@ namespace craftersmine.Valknut.Server.Controllers
         }
 
         [Route(HttpVerbs.Get, "/getBootstrapData")]
-        public Response GetBootstrapData()
+        public string GetBootstrapData()
         {
             var bootstrapData = BootstrapHelper.GetBootstrapData();
-            return new BootstrapDataResponse() { BootstrapData = bootstrapData };
+            if (bootstrapData is not null)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(BootstrapData));
+                using (StringWriter writer = new StringWriter())
+                {
+                    serializer.Serialize(writer, bootstrapData);
+                    return writer.ToString();
+                }
+            }
+            else
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(ErrorResponse));
+                using (StringWriter writer = new StringWriter())
+                {
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    serializer.Serialize(writer, new ErrorResponse("BootstrapException", "Unable to get bootstrap data"));
+                    return writer.ToString();
+                }
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace craftersmine.Valknut.Server.Models
 {
+    [Serializable]
     public class ErrorResponse : Response
     {
         [JsonProperty("error")]
@@ -16,6 +17,8 @@ namespace craftersmine.Valknut.Server.Models
         public string ErrorMessage { get; set; }
         [JsonProperty("cause")]
         public string Cause { get; set; }
+
+        public ErrorResponse() { }
 
         public ErrorResponse(string error, string message, string cause)
         {

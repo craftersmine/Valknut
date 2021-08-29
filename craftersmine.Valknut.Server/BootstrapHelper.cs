@@ -9,17 +9,17 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace craftersmine.Valknut.Server
 {
+    [Serializable]
     public sealed class BootstrapData
     {
         [JsonProperty("id")]
         public string Id { get; set; }
         [JsonProperty("version")]
-        public int Version { get; set; }
-        [JsonProperty("versionString")]
-        public string VersionString { get; set; }
+        public string Version { get; set; }
         [JsonProperty("hash", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Hash { get; set; }
         [JsonProperty("archive")]
@@ -32,27 +32,40 @@ namespace craftersmine.Valknut.Server
         {
             BootstrapData bootstrapData = new BootstrapData();
             bootstrapData.Id = "valknut";
-            bootstrapData.Version = 1;
-            bootstrapData.VersionString = "1.0.0";
+            bootstrapData.Version = "1.0.0.0";
             bootstrapData.Archive = "launcher-1.0.0.zip";
             bootstrapData.Hash = null;
             string bootstrapDir = Path.Combine(Program.Config.PathsConfig.ContentPath, "bootstrap");
-            string bootstrapMeta = Path.Combine(bootstrapDir, "bootstrap.json");
-            string json = JsonConvert.SerializeObject(bootstrapData, Formatting.Indented);
+            string bootstrapMeta = Path.Combine(bootstrapDir, "bootstrap.xml");
 
             if (!Directory.Exists(Path.Combine(bootstrapDir, "launchers")))
                 Directory.CreateDirectory(Path.Combine(bootstrapDir, "launchers"));
             if (!Directory.Exists(bootstrapDir))
                 Directory.CreateDirectory(bootstrapDir);
-            File.WriteAllText(bootstrapMeta, json);
+
+            using (FileStream fs = new FileStream(bootstrapMeta, FileMode.OpenOrCreate))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(BootstrapData));
+                serializer.Serialize(fs, bootstrapData);
+            }
         }
 
         public static BootstrapData GetBootstrapData()
         {
             string bootstrapDir = Path.Combine(Program.Config.PathsConfig.ContentPath, "bootstrap");
-            string bootstrapMeta = Path.Combine(bootstrapDir, "bootstrap.json");
-            string json = File.ReadAllText(bootstrapMeta);
-            var meta = JsonConvert.DeserializeObject<BootstrapData>(json);
+            string bootstrapMeta = Path.Combine(bootstrapDir, "bootstrap.xml");
+
+            BootstrapData meta;
+
+            using (FileStream fs = new FileStream(bootstrapMeta, FileMode.Open))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(BootstrapData));
+                meta = (BootstrapData)serializer.Deserialize(fs);
+            }
+
+            if (meta is null)
+                return null;
+
             string launchersDir = Path.Combine(bootstrapDir, "launchers");
             string launcherPath = Path.Combine(launchersDir, meta.Archive);
 
@@ -81,6 +94,7 @@ namespace craftersmine.Valknut.Server
 
             return meta;
         }
+
         private static string HashBytesToString(byte[] hash)
         {
             return BitConverter.ToString(hash).Replace("-", "");
