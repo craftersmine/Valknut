@@ -1,0 +1,12 @@
+{
+  "clients": [
+    {
+      "id": "testClient",
+      "version": "1.12.2",
+      "name": "Test Client",
+      "launchString": "-Xmx{memory}M -Dfile.encoding=UTF-8 -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true -Djava.net.useSystemProxies=true -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump \"-Dos.name={os}\" -Dos.version=10.0 \"-Djava.library.path={natives}\" -Dminecraft.launcher.brand=java-minecraft-launcher -Dminecraft.launcher.version=1.6.84-j \"-Dminecraft.client.jar={minecraftJar}\" -cp \"{classpath}\" net.minecraft.launchwrapper.Launch --accessToken \"{accessToken}\" --username {username} --version \"{clientName}\" --gameDir {gameDir} --assetsDir {assetDir} --assetIndex {assetIndex} --uuid {userUuid} --tweakClass net.minecraftforge.fml.common.launcher.FMLTweaker --versionType Forge --width 925 --height 530",
+      "clientEnabled": true,
+      "assetsIndex": "1.12"
+    }
+  ]
+}
