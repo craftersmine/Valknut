@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "craftersmine.Valknut.Launch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "craftersmine.Valknut.Launcher.Wpf", "craftersmine.Valknut.Launcher.Wpf\craftersmine.Valknut.Launcher.Wpf.csproj", "{679C616A-422F-4391-AB30-F496E97213F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "craftersmine.Valknut.Launcher.Bootstrap", "craftersmine.Valknut.Launcher.Bootstrap\craftersmine.Valknut.Launcher.Bootstrap.csproj", "{6280B01C-C437-4CF2-AE01-F34A2B58D938}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{679C616A-422F-4391-AB30-F496E97213F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{679C616A-422F-4391-AB30-F496E97213F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{679C616A-422F-4391-AB30-F496E97213F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6280B01C-C437-4CF2-AE01-F34A2B58D938}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6280B01C-C437-4CF2-AE01-F34A2B58D938}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6280B01C-C437-4CF2-AE01-F34A2B58D938}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6280B01C-C437-4CF2-AE01-F34A2B58D938}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
