@@ -45,7 +45,7 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
             // progress
             // 
             this.progress.Location = new System.Drawing.Point(12, 44);
-            this.progress.MarqueeAnimationSpeed = 200;
+            this.progress.MarqueeAnimationSpeed = 10;
             this.progress.Name = "progress";
             this.progress.Size = new System.Drawing.Size(432, 23);
             this.progress.Step = 1;
