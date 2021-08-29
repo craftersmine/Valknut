@@ -40,15 +40,21 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
         {
             using (HttpClient client = new HttpClient())
             {
-                List<string> args = new List<string>();
-                foreach (var arg in values)
+                List<string> args = new List<string>(); string argsUriEncoded = "";
+                if (values != null)
                 {
-                    args.Add(arg.Key + "=" + arg.Value);
+                    foreach (var arg in values)
+                    {
+                        args.Add(arg.Key + "=" + arg.Value);
+                    }
+                    argsUriEncoded = string.Join("&", args.ToArray());
                 }
-                string argsUriEncoded = string.Join("&", args.ToArray());
                 if (!string.IsNullOrWhiteSpace(accessToken))
                     client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
-                var response = await client.GetAsync(HttpUtility.UrlEncode(uri + "?" + argsUriEncoded));
+                HttpResponseMessage response;
+                if (values != null)
+                    response = await client.GetAsync(uri + "?" + argsUriEncoded);
+                else response = await client.GetAsync(uri);
                 string respVal = await response.Content.ReadAsStringAsync();
                 return new Response() { ResponseData = respVal, StatusCode = response.StatusCode, IsSuccessful = response.IsSuccessStatusCode };
             }
