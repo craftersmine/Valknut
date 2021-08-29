@@ -89,6 +89,12 @@ namespace craftersmine.Valknut.Server
                         c.ContentCaching = false;
                     });
 
+                if (Config.WebServerConfig.EnableHttps)
+                {
+                    X509Certificate2 cert = new X509Certificate2(Config.WebServerConfig.Certificate);
+                    webServer.Options.Certificate = cert;
+                }
+
                 webServer.StateChanged += WebServerStateChanged;
 
                 webServer.Start();
