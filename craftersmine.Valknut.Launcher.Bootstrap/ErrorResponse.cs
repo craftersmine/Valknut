@@ -1,4 +1,4 @@
-﻿using Swan.Formatters;
+﻿using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace craftersmine.Valknut.Server.Models
+namespace craftersmine.Valknut.Launcher.Bootstrap
 {
     public class ErrorResponse : Response
     {

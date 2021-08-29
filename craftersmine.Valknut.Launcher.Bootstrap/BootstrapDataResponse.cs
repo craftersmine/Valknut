@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace craftersmine.Valknut.Server.Models.Responses
+namespace craftersmine.Valknut.Launcher.Bootstrap
 {
     public sealed class BootstrapDataResponse : Response
     {
