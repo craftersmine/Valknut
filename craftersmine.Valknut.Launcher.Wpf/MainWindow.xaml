@@ -4,47 +4,183 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:craftersmine.Valknut.Launcher.Wpf"
+        xmlns:res="clr-namespace:craftersmine.Valknut.Launcher.Wpf.Properties"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="craftersmine.Valknut.Launcher.Wpf.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="348.5"
+        Title="MainWindow" Height="450" Width="362"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Background="{DynamicResource MaterialDesignPaper}" ResizeMode="CanMinimize"
         >
-    <Grid Margin="0,0,0,0">
-        <materialDesign:DialogHost>
-            <materialDesign:DialogHost.DialogContent>
-                <Grid MinWidth="150" MinHeight="120" Margin="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Label Content="MessageTitle" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                    <materialDesign:PackIcon HorizontalAlignment="Center" VerticalAlignment="Center" Width="32" Height="32" Grid.Row="1"/>
-                    <Label Content="Test" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"></Label>
-                    <Button Content="Test" Style="{DynamicResource MaterialDesignFlatButton}" Grid.Row="3" Grid.Column="2"/>
-                </Grid>
-            </materialDesign:DialogHost.DialogContent>
-            <materialDesign:Card HorizontalAlignment="Left" Margin="10,10,0,233.2" Width="322.5">
-                <Grid>
-                    <Label Content="E-mail:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                    <TextBox Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,39.8,10,0"/>
-                    <Label Content="Password:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,67.8,0,0"/>
-                    <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="302.5" Margin="10,97.6,0,0"/>
-                    <Button x:Name="button" Content="Login" HorizontalAlignment="Right" Margin="0,0,10,10" Height="32" VerticalAlignment="Bottom" MinWidth="100"/>
-                    <Button Content="Register" HorizontalAlignment="Left" Margin="10,0,0,10" Height="32" VerticalAlignment="Bottom" Style="{DynamicResource MaterialDesignFlatButton}" MinWidth="100"/>
+    <materialDesign:DialogHost x:Name="dialogHost" IsOpen="False" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" CloseOnClickAway="True">
+        <materialDesign:DialogHost.DialogContent>
+            <Grid MinWidth="50" MinHeight="50" Margin="10">
+                <StackPanel Visibility="Collapsed" x:Name="messageBox">
+                    <TextBlock x:Name="dlgTitle" Text="MessageTitle" Style="{DynamicResource MaterialDesignCaptionTextBlock}" FontWeight="Bold" FontSize="16" VerticalAlignment="Top" Margin="0 0 0 10"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10 10 10 10">
+                        <materialDesign:PackIcon x:Name="dlgIcon" Kind="AlertCircle" Width="32" Height="32" Margin="0 0 16 0"/>
+                        <TextBlock x:Name="dlgLabelContent" Text="MessageContent" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="dlgButtonOk" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="OK"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Visibility="Collapsed" x:Name="settingsBox">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Gear" Margin="0 0 5 0" Height="24" Width="24"/>
+                        <TextBlock Text="Settings" Style="{DynamicResource MaterialDesignCaptionTextBlock}" FontWeight="Bold" FontSize="16" Margin="0 0 0 5" VerticalAlignment="Stretch"/>
+                    </StackPanel>
+                    <GroupBox Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="0 0 0 10">
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Memory" VerticalAlignment="Center"/>
+                                <TextBlock Text="Minecraft Memory Allocation" Margin="5 5 5 5"/>
+                            </StackPanel>
+                        </GroupBox.Header>
+                        <StackPanel>
+                            <TextBlock x:Name="settingsAllocatedMemLabel" Text="Allocated: {0}" Margin="10 10 10 0"/>
+                            <Slider x:Name="settingsAllocatedMemSlider" Minimum="1024" Maximum="4096" Value="2048" TickFrequency="128" IsSnapToTickEnabled="True" Margin="10 10 10 0" TickPlacement="BottomRight"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                <TextBlock x:Name="settingsMinMemLabel" Text="Min: {0}" Margin="10 10 10 10"/>
+                                <TextBlock x:Name="settingsMaxMemLabel"  Text="Max: {0}" VerticalAlignment="Center" Margin="10 10 10 10"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="0 0 0 10">
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Wrench" VerticalAlignment="Center"/>
+                                <TextBlock Text="Problem Fixing" Margin="5 5 5 5"/>
+                            </StackPanel>
+                        </GroupBox.Header>
+                        <CheckBox x:Name="settingsReinstallClientCheck" Content="Reinstall client at next launch" Height="24"/>
+                    </GroupBox>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="settingsCancelButton" Content="Cancel" HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource MaterialDesignFlatButton}"/>
+                        <Button x:Name="settingsApplyButton" Content="Apply" Style="{DynamicResource MaterialDesignFlatButton}"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Visibility="Collapsed" x:Name="aboutBox">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="InfoCircle" Margin="0 0 5 0" Height="24" Width="24"/>
+                        <TextBlock Text="About Launcher" Style="{DynamicResource MaterialDesignCaptionTextBlock}" FontWeight="Bold" FontSize="16" Margin="0 0 5 5" VerticalAlignment="Stretch"/>
+                    </StackPanel>
+                    <TextBlock x:Name="aboutTitleLabel" Text="launcherTitle" Margin="10 10 10 0"/>
+                    <TextBlock x:Name="aboutDevLabel" Text="Developer: {0}" Margin="10 10 10 0"/>
+                    <TextBlock x:Name="aboutClientTokLabel" Text="Client Token: {0}" Margin="10 10 10 0"/>
+                    <TextBlock Text="Based on Valknut" Margin="10 10 10 10"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="aboutCloseButton" Content="Close" HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource MaterialDesignFlatButton}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </materialDesign:DialogHost.DialogContent>
+        <Grid>
+            <materialDesign:ColorZone Height="40" d:LayoutOverrides="HorizontalAlignment" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" Grid.ColumnSpan="2">
+                <DockPanel>
+                    <materialDesign:PopupBox
+                        DockPanel.Dock="Right"
+                        PlacementMode="BottomAndAlignRightEdges" IsPopupOpen="False">
+                        <ListBox>
+                            <ListBoxItem Visibility="Visible" x:Name="settingsMenu" MouseLeftButtonUp="settingsMenuClick">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Cog" VerticalAlignment="Center" Height="24" Width="24" Margin="10 0 0 0"/>
+                                    <TextBlock Text="Settings" VerticalAlignment="Center" Margin="16 0 16 0"/>
+                                </StackPanel>
+                            </ListBoxItem>
+                            <ListBoxItem Visibility="Visible" x:Name="logoutMenu">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="AccountRemove" VerticalAlignment="Center" Height="24" Width="24" Margin="10 0 0 0"/>
+                                    <TextBlock Text="Logout" VerticalAlignment="Center" Margin="16 0 16 0"/>
+                                </StackPanel>
+                            </ListBoxItem>
+                            <ListBoxItem Visibility="Visible" x:Name="aboutMenu" MouseLeftButtonUp="aboutMenuClick">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Information" VerticalAlignment="Center" Height="24" Width="24" Margin="10 0 0 0"/>
+                                    <TextBlock Text="About" VerticalAlignment="Center" Margin="16 0 16 0"/>
+                                </StackPanel>
+                            </ListBoxItem>
+                        </ListBox>
+                    </materialDesign:PopupBox>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="title" VerticalAlignment="Center" Text="Valknut Launcher" Margin="16 0 0 0"/>
+                    </StackPanel>
+                </DockPanel>
+            </materialDesign:ColorZone>
+            <Grid x:Name="loginFrame" Margin="0,40,0,0" Visibility="Visible">
+                <StackPanel>
+                    <TextBox x:Name="emailBox" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" Margin="10,10,10,0" Height="40" d:LayoutOverrides="HorizontalAlignment, Width" materialDesign:HintAssist.Hint="{x:Static res:Resources.LoginFrame_TextBox_Email}" materialDesign:HintAssist.HelperText="{x:Static res:Resources.LoginFrame_TextBox_Email_Tip}" materialDesign:TextFieldAssist.HasClearButton="True">
+                        <TextBox.Text>
+                            <Binding Path="Name"
+                                     UpdateSourceTrigger="PropertyChanged"
+                                     NotifyOnValidationError="True"
+                                     ValidatesOnNotifyDataErrors="True"
+                                     ValidatesOnDataErrors="True"
+                                     Mode="TwoWay">
+                                <Binding.ValidationRules>
+                                    <local:EmailValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <PasswordBox x:Name="passwordBox" Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}" VerticalAlignment="Top" Margin="10,10,10,0" Height="40" d:LayoutOverrides="HorizontalAlignment, Width" materialDesign:HintAssist.Hint="{x:Static res:Resources.LoginFrame_TextBox_Password}"/>
+                    <CheckBox x:Name="rememberMe" Content="{x:Static res:Resources.LoginFrame_CheckBox_RememberMe}" Margin="10 10 10 0"/>
+                    <DockPanel>
+                        <ProgressBar x:Name="loginAnimation" Style="{DynamicResource MaterialDesignCircularProgressBar}" IsIndeterminate="True" DockPanel.Dock="Left" Margin="10 10 10 10" VerticalAlignment="Center" Width="24" Visibility="Hidden"/>
+                        <StackPanel Orientation="Horizontal" Margin="10 10 10 0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="registerButton" Margin="0 0 10 0">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="AccountAdd" Margin="0 0 10 0"/>
+                                    <TextBlock Text="{x:Static res:Resources.LoginFrame_Button_Register}"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="loginButton" Click="loginButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="AccountKey" Margin="0 0 10 0"/>
+                                    <TextBlock Text="{x:Static res:Resources.LoginFrame_Button_Login}"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </DockPanel>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="playFrame" Margin="0 40 0 0" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock x:Name="welcomeLabel" Text="{x:Static res:Resources.PlayFrame_WelcomeBox}" Margin="10 10 10 0"/>
+                    <ComboBox x:Name="clientsCombobox" Margin="10 10 10 0" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Height="25" materialDesign:ComboBoxAssist.ShowSelectedItem="True">
 
-                </Grid>
-            </materialDesign:Card>
-
-        </materialDesign:DialogHost>
-    </Grid>
+                    </ComboBox>
+                    <Button x:Name="launchButton" Margin="10 10 10 0" Click="launchButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Play" Margin="0 0 10 0"/>
+                            <TextBlock Text="{x:Static res:Resources.PlayFrame_Button_Launch}"/>
+                        </StackPanel>
+                    </Button>
+                    <materialDesign:Card Margin="10 10 10 0" Visibility="Visible">
+                        <StackPanel>
+                            <TextBlock Text="{x:Static res:Resources.PlayFrame_ClientDescription}" Style="{DynamicResource MaterialDesignBody2TextBlock}" FontWeight="Bold" Margin="10 10 10 0"/>
+                            <TextBlock x:Name="clientDescriptionLabel" Text="The client description" Margin="10 10 10 10"/>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="initializingFrame" Margin="0 40 0 0" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock x:Name="statusLabel" Text="Initializing Minecraft..." Margin="10 10 10 0" FontWeight="Bold"/>
+                    <TextBlock x:Name="additionalStatusLabel" Text="Checking Minecraft..." Margin="10 10 10 0"/>
+                    <TextBlock x:Name="currentFileLabel" Text="...\bin\minecraft.jar" Margin="10 10 10 0"/>
+                    <TextBlock x:Name="fileProgressLabel" Text="Downloaded: {0}% {1} MB/{2} MB" Margin="10 10 10 0" Visibility="Visible"/>
+                    <ProgressBar x:Name="downloadProgress" IsIndeterminate="True" Margin="10 10 10 0"/>
+                    <materialDesign:Card x:Name="downloadingTip" Margin="10 10 10 0" Visibility="Visible">
+                        <StackPanel>
+                            <TextBlock Text="Tip" Style="{DynamicResource MaterialDesignCaptionTextBlock}" Margin="10 10 10 0" FontWeight="Bold" FontSize="16"/>
+                            <TextBlock x:Name="tipContent" Text="Here goes tip content" Margin="10 10 10 10"/>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </materialDesign:DialogHost>
 </Window>

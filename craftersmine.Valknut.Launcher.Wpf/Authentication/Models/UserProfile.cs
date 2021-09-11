@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace craftersmine.Valknut.Launcher.Authentication.Models
 {
+    [Serializable]
     public sealed class UserProfile
     {
         [JsonProperty("name")]

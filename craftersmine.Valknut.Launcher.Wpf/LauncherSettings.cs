@@ -35,6 +35,10 @@ namespace craftersmine.Valknut.Launcher
         /// </summary>
         public static string RegistrationLink { get; } = "about:blank";
 
+        public static string LauncherFolder { get; } = "valknut";
+
+        public static string LauncherDeveloper { get; } = "Valknut";
+
 
         public static string GetServerAddress()
         {

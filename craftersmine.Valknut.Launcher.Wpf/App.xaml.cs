@@ -13,5 +13,6 @@ namespace craftersmine.Valknut.Launcher.Wpf
     /// </summary>
     public partial class App : Application
     {
+        
     }
 }

@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -85,9 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,9 +112,81 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutBox.Label.ClientId" xml:space="preserve">
+    <value>Client ID: {0}</value>
+  </data>
+  <data name="AboutBox.Label.Developer" xml:space="preserve">
+    <value>Developer: {0}</value>
+  </data>
+  <data name="Header.Menu.AboutMenu" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Header.Menu.LogoutMenu" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Header.Menu.SettingsMenu" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="InitializingFrame.Label.Progress" xml:space="preserve">
+    <value>Downloaded: {0}% {1:F2} MB/{2:F2} MB</value>
+  </data>
+  <data name="InitializingFrame.Label.Status.CheckingMinecraft" xml:space="preserve">
+    <value>Checking Minecraft...</value>
+  </data>
+  <data name="InitializingFrame.Label.Status.DowloadingFile" xml:space="preserve">
+    <value>Downloading file...</value>
+  </data>
+  <data name="InitializingFrame.Label.StatusOverall.DownloadingJava" xml:space="preserve">
+    <value>Downloading Java...</value>
+  </data>
+  <data name="InitializingFrame.Label.StatusOverall.DownloadingMinecraft" xml:space="preserve">
+    <value>Downloading Minecraft...</value>
+  </data>
+  <data name="InitializingFrame.Label.StatusOverall.InitializingMinecraft" xml:space="preserve">
+    <value>Initializing Minecraft...</value>
+  </data>
+  <data name="InitializingFrame.Label.TipTitle" xml:space="preserve">
+    <value>Tip</value>
+  </data>
+  <data name="LoginFrame.Button.Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginFrame.Button.Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="LoginFrame.CheckBox.RememberMe" xml:space="preserve">
+    <value>Remember Me</value>
+  </data>
+  <data name="LoginFrame.TextBox.Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="LoginFrame.TextBox.Email.Tip" xml:space="preserve">
+    <value>ex. example@example.com</value>
+  </data>
+  <data name="LoginFrame.TextBox.Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Message.Error.Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="PlayFrame.Button.Launch" xml:space="preserve">
+    <value>Launch</value>
+  </data>
+  <data name="PlayFrame.ClientDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="PlayFrame.WelcomeBox" xml:space="preserve">
+    <value>Welcome back, {0}</value>
+  </data>
+  <data name="Validation.Email.FieldCannotBeEmpty" xml:space="preserve">
+    <value>E-mail field cannot be empty</value>
+  </data>
+  <data name="Validation.Email.FieldContentsIsNotEmail" xml:space="preserve">
+    <value>This is not valid E-mail address, ex. example@example.com</value>
+  </data>
 </root>
