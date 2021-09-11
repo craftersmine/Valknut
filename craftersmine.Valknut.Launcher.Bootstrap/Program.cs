@@ -1,4 +1,5 @@
-﻿using System;
+﻿using craftersmine.Valknut.Launcher.Bootstrap.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,9 +15,17 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainForm());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format(Resources.Error_BootstrapError, ex.Message, ex.StackTrace), Resources.Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
         }
     }
 }

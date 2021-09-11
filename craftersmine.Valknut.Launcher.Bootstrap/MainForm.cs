@@ -1,10 +1,12 @@
-﻿using System;
+﻿using craftersmine.Valknut.Launcher.Bootstrap.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -22,28 +24,38 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
 
         public MainForm()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
 
-            status.Text = "Loading Valknut Bootstrapper...";
-            if (BootstrapSettings.ServerPort != 80)
-                address = BootstrapSettings.ServerProtocol + "://" + BootstrapSettings.ServerAddress + ":" + BootstrapSettings.ServerPort + "/valknut/api/";
-            else address = BootstrapSettings.ServerProtocol + "://" + BootstrapSettings.ServerAddress + "/valknut/api/";
+                Text = BootstrapSettings.BootstrapperTitle + " - 1.0";
 
-            dataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "." + BootstrapSettings.LauncherDir);
+                status.Text = Resources.Status_LoadingBootstrapper;
+                if (BootstrapSettings.ServerPort != 80)
+                    address = BootstrapSettings.ServerProtocol + "://" + BootstrapSettings.ServerAddress + ":" + BootstrapSettings.ServerPort + "/valknut/api/";
+                else address = BootstrapSettings.ServerProtocol + "://" + BootstrapSettings.ServerAddress + "/valknut/api/";
 
-            if (!Directory.Exists(dataDir))
-                Directory.CreateDirectory(dataDir);
+                dataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "." + BootstrapSettings.LauncherDir);
 
-            Bootstrap();
+                if (!Directory.Exists(dataDir))
+                    Directory.CreateDirectory(dataDir);
+
+                Bootstrap();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format(Resources.Error_BootstrapError, ex.Message, ex.StackTrace), Resources.Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
         }
 
         private async void Bootstrap()
         {
-            status.Text = "Downloading launcher data...";
+            status.Text = Resources.Status_DownloadingLauncherData;
             var resp = await HttpHelper.MakeGetRequest(address + "getBootstrapData", null);
             resp.ResponseData = resp.ResponseData
                 .Trim(new char[] { '\"', '\r', '\n' });
-                //.Substring(1, resp.ResponseData.Length - 1);
+            //.Substring(1, resp.ResponseData.Length - 1);
             if (resp.IsSuccessful)
             {
                 using (StringReader reader = new StringReader(resp.ResponseData))
@@ -51,6 +63,7 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
                     XmlSerializer serializer = new XmlSerializer(typeof(BootstrapData));
                     data = (BootstrapData)serializer.Deserialize(reader);
                 }
+
 
                 CheckLauncher();
             }
@@ -63,20 +76,32 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
 
             Version currentVer = Version.Parse(data.Version);
 
+            Text += " - " + data.Version;
+
             if (!File.Exists(launcherPath))
                 DownloadLauncher();
             else
             {
-
+                if (Version.Parse(FileVersionInfo.GetVersionInfo(launcherPath).ProductVersion) >= currentVer)
+                    RunLauncher();
+                else DownloadLauncher();
             }
+        }
+
+        private void RunLauncher()
+        {
+            status.Text = Resources.Status_StartingLauncher;
+            string launcherPath = Path.Combine(dataDir, "launcher.exe");
+            Process.Start(launcherPath);
+            Environment.Exit(0);
         }
 
         private void DownloadLauncher()
         {
-            status.Text = "Downloading launcher...";
+            status.Text = Resources.Status_DownloadingLauncher;
             WebClient webClient = new WebClient();
             webClient.DownloadProgressChanged += launcherDownloadProgressChanged;
-            webClient.DownloadFileCompleted += launcherDownloadCompleted; ;
+            webClient.DownloadFileCompleted += launcherDownloadCompleted;
             string launcherTempArchiveDir = Path.Combine(dataDir, "temp");
             if (!Directory.Exists(launcherTempArchiveDir))
                 Directory.CreateDirectory(launcherTempArchiveDir);
@@ -93,12 +118,35 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
 
         private void ValidateLauncherArchive()
         {
-            status.Text = "Validating downloaded launcher...";
+            status.Text = Resources.Status_ValidatingLauncher;
+            string launcherTempArchiveDir = Path.Combine(dataDir, "temp");
+            string launcherTempArchive = Path.Combine(launcherTempArchiveDir, "launcher.zip");
+            var hash = Sha256FileHash.CalculateFileHash(launcherTempArchive);
+            var hashStr = Sha256FileHash.HashBytesToString(hash);
+            if (hashStr != data.Hash)
+            {
+                MessageBox.Show(Resources.Error_LauncherVerification, Resources.Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                File.Delete(launcherTempArchive);
+                Environment.Exit(0);
+            }
+            else
+            {
+                UnzipArchive();
+            }
+        }
+
+        private void UnzipArchive()
+        {
+            status.Text = Resources.Status_ExtractingLauncher;
+            string launcherTempArchiveDir = Path.Combine(dataDir, "temp");
+            string launcherTempArchive = Path.Combine(launcherTempArchiveDir, "launcher.zip");
+            ZipFile.ExtractToDirectory(launcherTempArchive, dataDir);
+            RunLauncher();
         }
 
         private void launcherDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            status.Text = string.Format("Downloading launcher... {0}% - {1:F2} MB/{2:F2} MB", e.ProgressPercentage, e.BytesReceived / 1024f / 1024f, e.TotalBytesToReceive / 1024f / 1024f);
+            status.Text = string.Format(Resources.Status_DownloadingLauncherProgress, e.ProgressPercentage, e.BytesReceived / 1024f / 1024f, e.TotalBytesToReceive / 1024f / 1024f);
             progress.Value = e.ProgressPercentage;
         }
 
@@ -110,7 +158,7 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
                 XmlSerializer serializer = new XmlSerializer(typeof(ErrorResponse));
                 err = (ErrorResponse)serializer.Deserialize(reader);
             }
-            MessageBox.Show("Something went wrong during launcher bootstrapping!\r\nPlease try again or contact support!\r\n\r\n" + err.ErrorMessage + "\r\nStatus code: " + err.Error);
+            MessageBox.Show(string.Format(Resources.Error_BootstrapDataError, err.ErrorMessage, err.Error), Resources.Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             Environment.Exit(0);
         }
     }

@@ -117,37 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Error.BootstrapDataError" xml:space="preserve">
-    <value>Something went wrong during launcher bootstrapping!\r\nPlease try again or contact support!\r\n\r\n{0}\r\nStatus code: {1}</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="branding.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 13</value>
   </data>
-  <data name="Error.BootstrapError" xml:space="preserve">
-    <value>An error has occured while bootstrapping launcher! Contact support for more information!\r\n\r\nMessage: {0}\r\nStacktrace:\r\n {1}</value>
-  </data>
-  <data name="Error.LauncherVerification" xml:space="preserve">
-    <value>Unable to verify downloaded launcher archive! Try relaunching bootstrapper and download launcher again. If problem occurs anyway, contact support!</value>
-  </data>
-  <data name="Error.Title" xml:space="preserve">
-    <value>Error!</value>
-  </data>
-  <data name="Status.DownloadingLauncher" xml:space="preserve">
-    <value>Downloading launcher...</value>
-  </data>
-  <data name="Status.DownloadingLauncherData" xml:space="preserve">
-    <value>Downloading launcher data...</value>
-  </data>
-  <data name="Status.DownloadingLauncherProgress" xml:space="preserve">
-    <value>Downloading launcher... {0}% - {1:F2} MB/{2:F2} MB</value>
-  </data>
-  <data name="Status.ExtractingLauncher" xml:space="preserve">
-    <value>Extracting launcher...</value>
-  </data>
-  <data name="Status.LoadingBootstrapper" xml:space="preserve">
-    <value>Loading Valknut Bootstrapper...</value>
-  </data>
-  <data name="Status.StartingLauncher" xml:space="preserve">
-    <value>Starting launcher...</value>
-  </data>
-  <data name="Status.ValidatingLauncher" xml:space="preserve">
-    <value>Validating downloaded launcher...</value>
+  <data name="branding.Text" xml:space="preserve">
+    <value>Основано на Valknut 1.0 от craftersmine</value>
   </data>
 </root>

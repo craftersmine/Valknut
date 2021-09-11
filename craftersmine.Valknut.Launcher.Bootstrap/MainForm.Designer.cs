@@ -29,41 +29,42 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.status = new System.Windows.Forms.Label();
             this.progress = new System.Windows.Forms.ProgressBar();
+            this.branding = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // status
             // 
-            this.status.AutoSize = true;
-            this.status.Location = new System.Drawing.Point(12, 9);
+            resources.ApplyResources(this.status, "status");
             this.status.Name = "status";
-            this.status.Size = new System.Drawing.Size(44, 13);
-            this.status.TabIndex = 0;
-            this.status.Text = "{status}";
             // 
             // progress
             // 
-            this.progress.Location = new System.Drawing.Point(12, 44);
+            resources.ApplyResources(this.progress, "progress");
             this.progress.MarqueeAnimationSpeed = 10;
             this.progress.Name = "progress";
-            this.progress.Size = new System.Drawing.Size(432, 23);
             this.progress.Step = 1;
             this.progress.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.progress.TabIndex = 1;
+            // 
+            // branding
+            // 
+            resources.ApplyResources(this.branding, "branding");
+            this.branding.ForeColor = System.Drawing.Color.LightGray;
+            this.branding.Name = "branding";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(456, 79);
+            this.Controls.Add(this.branding);
             this.Controls.Add(this.progress);
             this.Controls.Add(this.status);
-            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Valknut Launcher Bootstrapper - 1.0";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -73,6 +74,7 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
 
         private System.Windows.Forms.Label status;
         private System.Windows.Forms.ProgressBar progress;
+        private System.Windows.Forms.Label branding;
     }
 }
 

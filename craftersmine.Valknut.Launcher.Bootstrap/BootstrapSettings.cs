@@ -12,5 +12,6 @@ namespace craftersmine.Valknut.Launcher.Bootstrap
         public static string ServerProtocol { get; } = "http";
         public static int ServerPort { get; } = 80;
         public static string LauncherDir { get; } = "valknut";
+        public static string BootstrapperTitle { get; } = "Valknut Launcher Bootstrapper";
     }
 }
