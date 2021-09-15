@@ -10,21 +10,21 @@ using System.Windows.Controls;
 
 namespace craftersmine.Valknut.Launcher.Wpf
 {
-    public class EmailValidationRule : ValidationRule
+    public class EmailValidationRule
     {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        public static bool Validate(string value)
         {
             
             string val = Convert.ToString(value);
 
             if (string.IsNullOrWhiteSpace(val))
-                return new ValidationResult(false, Resources.Validation_Email_FieldCannotBeEmpty);
+                return false;
 
             bool isEmailValid = Regex.IsMatch(val, @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
 
             if (isEmailValid)
-                return new ValidationResult(true, null);
-            else return new ValidationResult(false, Resources.Validation_Email_FieldContentsIsNotEmail);
+                return true;
+            else return false;
         }
     }
 }
