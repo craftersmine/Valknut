@@ -24,7 +24,7 @@
                         <TextBlock x:Name="dlgLabelContent" Text="MessageContent" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="dlgButtonOk" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="OK"/>
+                        <Button x:Name="dlgButtonOk" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="OK" Click="dlgButtonOk_Click"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Visibility="Collapsed" x:Name="settingsBox">
@@ -58,8 +58,8 @@
                         <CheckBox x:Name="settingsReinstallClientCheck" Content="Reinstall client at next launch" Height="24"/>
                     </GroupBox>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="settingsCancelButton" Content="Cancel" HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource MaterialDesignFlatButton}"/>
-                        <Button x:Name="settingsApplyButton" Content="Apply" Style="{DynamicResource MaterialDesignFlatButton}"/>
+                        <Button x:Name="settingsCancelButton" Content="Cancel" HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource MaterialDesignFlatButton}" Click="settingsCancelButton_Click"/>
+                        <Button x:Name="settingsApplyButton" Content="Apply" Style="{DynamicResource MaterialDesignFlatButton}" Click="settingsApplyButton_Click"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Visibility="Collapsed" x:Name="aboutBox">
@@ -72,7 +72,7 @@
                     <TextBlock x:Name="aboutClientTokLabel" Text="Client Token: {0}" Margin="10 10 10 0"/>
                     <TextBlock Text="Based on Valknut" Margin="10 10 10 10"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="aboutCloseButton" Content="Close" HorizontalAlignment="Right" Margin="0 0 10 0" Style="{DynamicResource MaterialDesignFlatButton}"/>
+                        <Button x:Name="aboutCloseButton" Content="Close" HorizontalAlignment="Right" Margin="0 0 0 0" Style="{DynamicResource MaterialDesignFlatButton}" Click="dlgButtonOk_Click"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -111,20 +111,7 @@
             </materialDesign:ColorZone>
             <Grid x:Name="loginFrame" Margin="0,40,0,0" Visibility="Visible">
                 <StackPanel>
-                    <TextBox x:Name="emailBox" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" Margin="10,10,10,0" Height="40" d:LayoutOverrides="HorizontalAlignment, Width" materialDesign:HintAssist.Hint="{x:Static res:Resources.LoginFrame_TextBox_Email}" materialDesign:HintAssist.HelperText="{x:Static res:Resources.LoginFrame_TextBox_Email_Tip}" materialDesign:TextFieldAssist.HasClearButton="True">
-                        <TextBox.Text>
-                            <Binding Path="Name"
-                                     UpdateSourceTrigger="PropertyChanged"
-                                     NotifyOnValidationError="True"
-                                     ValidatesOnNotifyDataErrors="True"
-                                     ValidatesOnDataErrors="True"
-                                     Mode="TwoWay">
-                                <Binding.ValidationRules>
-                                    <local:EmailValidationRule ValidatesOnTargetUpdated="True"/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
+                    <TextBox x:Name="emailBox" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Top" Margin="10,10,10,0" Height="40" d:LayoutOverrides="HorizontalAlignment, Width" materialDesign:HintAssist.Hint="{x:Static res:Resources.LoginFrame_TextBox_Email}" materialDesign:HintAssist.HelperText="{x:Static res:Resources.LoginFrame_TextBox_Email_Tip}" materialDesign:TextFieldAssist.HasClearButton="True"/>
                     <PasswordBox x:Name="passwordBox" Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}" VerticalAlignment="Top" Margin="10,10,10,0" Height="40" d:LayoutOverrides="HorizontalAlignment, Width" materialDesign:HintAssist.Hint="{x:Static res:Resources.LoginFrame_TextBox_Password}"/>
                     <CheckBox x:Name="rememberMe" Content="{x:Static res:Resources.LoginFrame_CheckBox_RememberMe}" Margin="10 10 10 0"/>
                     <DockPanel>
@@ -181,6 +168,7 @@
                     </materialDesign:Card>
                 </StackPanel>
             </Grid>
+            <materialDesign:Snackbar x:Name="snackbar" HorizontalAlignment="Stretch" Margin="10,0,10,10" VerticalAlignment="Bottom" MessageQueue="{materialDesign:MessageQueue}"/>
         </Grid>
     </materialDesign:DialogHost>
 </Window>
