@@ -1,6 +1,9 @@
 ﻿using craftersmine.Valknut.Launcher.Authentication;
 using craftersmine.Valknut.Launcher.Authentication.Models.Responses;
 using craftersmine.Valknut.Launcher.Wpf.Properties;
+
+using MaterialDesignThemes.Wpf;
+
 using Swan.Logging;
 using System;
 using System.Collections.Generic;
@@ -25,10 +28,13 @@ namespace craftersmine.Valknut.Launcher.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        SnackbarMessageQueue SnackbarMessageQueue;
+
         public MainWindow()
         {
             InitializeComponent();
-            loginButton.IsEnabled = false;
+            SnackbarMessageQueue = new SnackbarMessageQueue();
+            snackbar.MessageQueue = SnackbarMessageQueue;
             if (Settings.Default.RememberUser)
             {
                 loginAnimation.Visibility = Visibility.Visible;
@@ -46,7 +52,8 @@ namespace craftersmine.Valknut.Launcher.Wpf
                         welcomeLabel.Text = string.Format(Properties.Resources.PlayFrame_WelcomeBox, Settings.Default.Username);
                         logoutMenu.IsEnabled = true;
                         settingsMenu.IsEnabled = true;
-                        loginButton.SetValue(MaterialDesignThemes.Wpf.ButtonProgressAssist.ValueProperty, true);
+                        loginButton.SetValue(ButtonProgressAssist.ValueProperty, true);
+                        SnackbarMessageQueue.Enqueue("Successfully logged in as " + Settings.Default.Username);
                         AnimateFramesSwitch(loginFrame, playFrame);
                     }
 
@@ -60,7 +67,7 @@ namespace craftersmine.Valknut.Launcher.Wpf
                     registerButton.IsEnabled = true;
                     loginButton.IsEnabled = true;
                     rememberMe.IsEnabled = true;
-                    loginButton.SetValue(MaterialDesignThemes.Wpf.ButtonProgressAssist.ValueProperty, false);
+                    loginButton.SetValue(MaterialDesignThemes.Wpf.ButtonProgressAssist.IsIndeterminateProperty, false);
                 }
                 
             }
@@ -72,7 +79,7 @@ namespace craftersmine.Valknut.Launcher.Wpf
         private async void loginButton_Click(object sender, RoutedEventArgs e)
         {
             loginAnimation.Visibility = Visibility.Visible;
-            loginButton.SetValue(MaterialDesignThemes.Wpf.ButtonProgressAssist.ValueProperty, true);
+            loginButton.SetValue(MaterialDesignThemes.Wpf.ButtonProgressAssist.IsIndeterminateProperty, true);
             emailBox.IsEnabled = false;
             passwordBox.IsEnabled = false;
             registerButton.IsEnabled = false;
@@ -81,6 +88,21 @@ namespace craftersmine.Valknut.Launcher.Wpf
             try
             {
                 Logger.Info("Authenticating...");
+
+                bool isEmailValid = EmailValidationRule.Validate(emailBox.Text);
+                if (!isEmailValid)
+                {
+                    loginAnimation.Visibility = Visibility.Collapsed;
+                    emailBox.IsEnabled = true;
+                    passwordBox.IsEnabled = true;
+                    registerButton.IsEnabled = true;
+                    loginButton.IsEnabled = true;
+                    rememberMe.IsEnabled = true;
+                    loginButton.SetValue(MaterialDesignThemes.Wpf.ButtonProgressAssist.IsIndeterminateProperty, false);
+                    SnackbarMessageQueue.Enqueue(Properties.Resources.Validation_Email_FieldContentsIsNotEmail);
+                    return;
+                }
+
                 var authenticationResponse = await Authenticator.Authenticate(emailBox.Text, passwordBox.Password);
                 if (authenticationResponse is AuthenticationResponse)
                 {
@@ -96,6 +118,7 @@ namespace craftersmine.Valknut.Launcher.Wpf
                         Settings.Default.RememberUser = (bool)rememberMe.IsChecked;
                     }
                     Settings.Default.Save();
+                    loginAnimation.Visibility = Visibility.Collapsed;
                     welcomeLabel.Text = string.Format(Properties.Resources.PlayFrame_WelcomeBox, StaticData.AuthenticationResponse.SelectedProfile.Name);
                     logoutMenu.IsEnabled = true;
                     settingsMenu.IsEnabled = true;
@@ -112,7 +135,7 @@ namespace craftersmine.Valknut.Launcher.Wpf
                 registerButton.IsEnabled = true;
                 loginButton.IsEnabled = true;
                 rememberMe.IsEnabled = true;
-                loginButton.SetValue(MaterialDesignThemes.Wpf.ButtonProgressAssist.ValueProperty, false);
+                loginButton.SetValue(MaterialDesignThemes.Wpf.ButtonProgressAssist.IsIndeterminateProperty, false);
             }
         }
 
@@ -180,6 +203,21 @@ namespace craftersmine.Valknut.Launcher.Wpf
             messageBox.Visibility = Visibility.Collapsed;
             aboutBox.Visibility = Visibility.Visible;
             dialogHost.IsOpen = true;
+        }
+
+        private void dlgButtonOk_Click(object sender, RoutedEventArgs e)
+        {
+            dialogHost.IsOpen = false;
+        }
+
+        private void settingsApplyButton_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: implement settings saving
+        }
+
+        private void settingsCancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            dialogHost.IsOpen = false;
         }
     }
 }
