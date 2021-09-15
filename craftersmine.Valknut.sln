@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "craftersmine.Valknut.Launch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "craftersmine.Valknut.Launcher.Bootstrap", "craftersmine.Valknut.Launcher.Bootstrap\craftersmine.Valknut.Launcher.Bootstrap.csproj", "{6280B01C-C437-4CF2-AE01-F34A2B58D938}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wiki", "Wiki", "{D8971159-B3BF-454F-B843-39343F20C36C}"
+	ProjectSection(SolutionItems) = preProject
+		Server.md = Server.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
