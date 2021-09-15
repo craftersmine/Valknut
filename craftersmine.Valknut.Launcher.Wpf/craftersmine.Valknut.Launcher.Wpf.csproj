@@ -92,6 +92,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="EmailValidationRule.cs" />
+    <Compile Include="ServerHelper.cs" />
     <Compile Include="StaticData.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
