@@ -21,6 +21,8 @@ namespace craftersmine.Valknut.Server
         public SecurityConfig SecurityConfig { get; set; }
         [JsonProperty("pathsConfig")]
         public PathsConfig PathsConfig { get; set; }
+        [JsonProperty("featuresConfig")]
+        public FeaturesConfig FeaturesConfig { get; set; }
 
         public void SaveConfig(string path)
         {
@@ -42,6 +44,7 @@ namespace craftersmine.Valknut.Server
             DbConnectionConfig dbCfg = new DbConnectionConfig();
             SecurityConfig secCfg = new SecurityConfig();
             PathsConfig pathsCfg = new PathsConfig();
+            FeaturesConfig featuresCfg = new FeaturesConfig();
 
             wsCfg.BindAddress = "*";
             wsCfg.Port = 80;
@@ -63,6 +66,8 @@ namespace craftersmine.Valknut.Server
             cfg.DbConnectionConfig = dbCfg;
             cfg.SecurityConfig = secCfg;
             cfg.PathsConfig = pathsCfg;
+
+            featuresCfg.EnableBuiltInRegistration = false;
 
             return cfg;
         }
@@ -106,5 +111,11 @@ namespace craftersmine.Valknut.Server
         public string ContentPath { get; set; }
         [JsonProperty("enableCapeUpload")]
         public bool EnableCapeUpload { get; set; }
+    }
+
+    public sealed class FeaturesConfig
+    {
+        [JsonProperty("enableBuiltInRegistration")]
+        public bool EnableBuiltInRegistration { get; set; }
     }
 }

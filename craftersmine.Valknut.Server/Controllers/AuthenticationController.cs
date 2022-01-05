@@ -166,6 +166,12 @@ namespace craftersmine.Valknut.Server.Controllers
         [Route(HttpVerbs.Post, "/register")]
         public Response Register()
         {
+            if (!Program.Config.FeaturesConfig.EnableBuiltInRegistration)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return new ErrorResponse("FeatureDisabledException", "Built-in Valknut registration feature has been disabled by administrator. Please use provided by administrator alternative registration method", "Feature disabled by admin, probably due to alternative preferred registration method");
+            }
+
             var registerRequest = HttpContext.GetRequestDataAsync<RegisterRequest>().Result;
 
             var account = AccountsTableHelper.GetUserAccount(registerRequest.Username);
