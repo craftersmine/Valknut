@@ -96,7 +96,7 @@ namespace craftersmine.Valknut.Server.Database
             string escapedEncryptedPassword = MySqlHelper.EscapeString(encryptedPassword);
             string escapedUuid = MySqlHelper.EscapeString(uuid);
 
-            command.CommandText = $"INSERT INTO accounts (`username`, `password`, `uuid`, `email`) VALUES ('{escapedUsername}', '{escapedEncryptedPassword}', '{escapedEmail}', '{escapedUuid}')";
+            command.CommandText = $"INSERT INTO accounts (`username`, `password`, `uuid`, `email`) VALUES ('{escapedUsername}', '{escapedEncryptedPassword}', '{escapedUuid}', '{escapedEmail}')";
             var rowsAdded = command.ExecuteNonQuery();
 
             if (rowsAdded > 0)
