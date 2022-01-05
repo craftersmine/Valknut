@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31424.327
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "craftersmine.Valknut.Server", "craftersmine.Valknut.Server\craftersmine.Valknut.Server.csproj", "{A5772688-5717-4714-AB1F-74746B968510}"
 EndProject
@@ -10,11 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "craftersmine.Valknut.Launcher.Wpf", "craftersmine.Valknut.Launcher.Wpf\craftersmine.Valknut.Launcher.Wpf.csproj", "{679C616A-422F-4391-AB30-F496E97213F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "craftersmine.Valknut.Launcher.Bootstrap", "craftersmine.Valknut.Launcher.Bootstrap\craftersmine.Valknut.Launcher.Bootstrap.csproj", "{6280B01C-C437-4CF2-AE01-F34A2B58D938}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wiki", "Wiki", "{D8971159-B3BF-454F-B843-39343F20C36C}"
-	ProjectSection(SolutionItems) = preProject
-		Server.md = Server.md
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
