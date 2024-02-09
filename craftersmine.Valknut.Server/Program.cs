@@ -70,7 +70,14 @@ namespace craftersmine.Valknut.Server
                 DatabaseConnection.OpenConnection();
 
                 Logger.Info("Loading Web Server at " + Config.WebServerConfig.BindAddress + ":" + Config.WebServerConfig.Port + "...");
-                WebServer webServer = new WebServer()
+
+                WebServerOptions options = new WebServerOptions();
+                options.WithUrlPrefix(
+                    "http://" + Config.WebServerConfig.BindAddress + ":" + Config.WebServerConfig.Port);
+                if (Config.WebServerConfig.EnableHttps)
+                    options.WithUrlPrefix("https://" + Config.WebServerConfig.BindAddress + ":443");
+
+                WebServer webServer = new WebServer(options)
                     .WithWebApi("/valknut/auth/", c =>
                     {
                         c.WithController<AuthenticationController>();
