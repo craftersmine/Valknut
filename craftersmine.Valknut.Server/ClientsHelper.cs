@@ -87,6 +87,7 @@ namespace craftersmine.Valknut.Server
             var nativesPath = Path.Combine(clientsPath, client.ClientId, "bin", "natives.zip");
             var modsPath = Path.Combine(clientsPath, client.ClientId, "mods");
             var configPath = Path.Combine(clientsPath, client.ClientId, "config.zip");
+            var optionsPath = Path.Combine(clientsPath, client.ClientId, "options.zip");
 
             if (!File.Exists(assetsPath))
             {
@@ -141,6 +142,7 @@ namespace craftersmine.Valknut.Server
 
             MinecraftFile configArchive = MinecraftFile.GetMinecraftFile(configPath);
 
+
             client.Files = new MinecraftFiles();
 
             client.Files.AssetsArchive = assetsArchive;
@@ -150,6 +152,12 @@ namespace craftersmine.Valknut.Server
             if (modsList is not null)
                 client.Files.Mods = modsList.ToArray();
             client.Files.ConfigArchive = configArchive;
+            
+            if (File.Exists(optionsPath))
+            {
+                MinecraftFile optionsFile = MinecraftFile.GetMinecraftFile(optionsPath);
+                client.Files.Options = optionsFile;
+            }
 
             return client;
         }
