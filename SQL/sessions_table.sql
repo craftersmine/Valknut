@@ -6,4 +6,4 @@ CREATE TABLE `sessions` (
   `clientToken` varchar(36) DEFAULT NULL COMMENT 'User current client token',
   PRIMARY KEY (`uuid`),
   UNIQUE KEY `uuid_UNIQUE` (`uuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4

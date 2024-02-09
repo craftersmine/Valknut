@@ -5,4 +5,4 @@ CREATE TABLE `accounts` (
   `uuid` varchar(32) DEFAULT NULL COMMENT 'Unique ID for user',
   `email` varchar(255) DEFAULT NULL COMMENT 'User EMail',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4
