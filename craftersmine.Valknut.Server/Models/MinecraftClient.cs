@@ -73,6 +73,8 @@ namespace craftersmine.Valknut.Server.Models
         public MinecraftFile ConfigArchive { get; set; }
         [JsonProperty("mods"), Swan.Formatters.JsonProperty("mods")]
         public MinecraftFile[] Mods { get; set; }
+        [JsonProperty("options", DefaultValueHandling = DefaultValueHandling.Ignore), Swan.Formatters.JsonProperty("options")]
+        public MinecraftFile Options { get; set; }
     }
 
     public sealed class MinecraftClient
