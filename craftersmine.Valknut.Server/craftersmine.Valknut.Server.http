@@ -1,0 +1,6 @@
+@craftersmine.Valknut.Server_HostAddress = http://localhost:5062
+
+GET {{craftersmine.Valknut.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
