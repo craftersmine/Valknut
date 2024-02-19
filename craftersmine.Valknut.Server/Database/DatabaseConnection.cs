@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,8 +34,15 @@ namespace craftersmine.Valknut.Server.Database
             connection.Open();
         }
 
+        public void EnsureConnectionOpen()
+        {
+            if (connection.State is ConnectionState.Closed or ConnectionState.Broken)
+                OpenConnection();
+        }
+
         public MySqlConnection GetSqlConnection()
         {
+            EnsureConnectionOpen();
             return connection;
         }
     }

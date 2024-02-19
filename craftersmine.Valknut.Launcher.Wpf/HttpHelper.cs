@@ -19,11 +19,13 @@ namespace craftersmine.Valknut.Launcher
                 HttpContent content = new StringContent(value);
                 if (!string.IsNullOrWhiteSpace(accessToken))
                     content.Headers.Add("Authorization", "Bearer " + accessToken);
-                var response = await client.PostAsync(uri, content);
+
+                var response = await client.PostAsync(uri, content).ConfigureAwait(false);
                 string respVal = await response.Content.ReadAsStringAsync();
                 return new Response() { ResponseData = respVal, StatusCode = response.StatusCode, IsSuccessful = response.IsSuccessStatusCode };
             }
         }
+
         public static async Task<Response> MakePostRequest(string uri, byte[] file, string accessToken = "")
         {
             using (HttpClient client = new HttpClient())
@@ -32,7 +34,7 @@ namespace craftersmine.Valknut.Launcher
                 content.Add(new ByteArrayContent(file), "file");
                 if (!string.IsNullOrWhiteSpace(accessToken))
                     content.Headers.Add("Authorization", "Bearer " + accessToken);
-                var response = await client.PostAsync(uri, content);
+                var response = await client.PostAsync(uri, content).ConfigureAwait(false);
                 string respVal = await response.Content.ReadAsStringAsync();
                 return new Response() { ResponseData = respVal, StatusCode = response.StatusCode, IsSuccessful = response.IsSuccessStatusCode };
             }
@@ -55,8 +57,8 @@ namespace craftersmine.Valknut.Launcher
                     client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
                 HttpResponseMessage response;
                 if (values != null)
-                    response = await client.GetAsync(HttpUtility.UrlEncode(uri + "?" + argsUriEncoded));
-                else response = await client.GetAsync(HttpUtility.UrlEncode(uri));
+                    response = await client.GetAsync(HttpUtility.UrlEncode(uri + "?" + argsUriEncoded)).ConfigureAwait(false);
+                else response = await client.GetAsync(HttpUtility.UrlEncode(uri)).ConfigureAwait(false);
                 string respVal = await response.Content.ReadAsStringAsync();
                 return new Response() { ResponseData = respVal, StatusCode = response.StatusCode, IsSuccessful = response.IsSuccessStatusCode };
             }

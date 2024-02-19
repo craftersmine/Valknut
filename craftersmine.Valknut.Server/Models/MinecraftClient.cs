@@ -22,6 +22,8 @@ namespace craftersmine.Valknut.Server.Models
         public string Path { get; set; }
         [JsonProperty("hash"), Swan.Formatters.JsonProperty("hash")]
         public string Hash { get; set; }
+        [JsonProperty("size"), Swan.Formatters.JsonProperty("size")]
+        public long Size { get; set; }
 
         private MinecraftFile() { }
 
@@ -39,16 +41,23 @@ namespace craftersmine.Valknut.Server.Models
 
                     string prot = "http";
                     string remotePath = "";
-                    if (Program.IsHttps())
-                        prot = "https";
-                    if (Program.Config.WebServerConfig.Port == 80)
-                        remotePath = prot + "://" + Program.Config.WebServerConfig.BindAddress + "/valknut/clients/" + relativePath;
+                    if (Program.Config.WebServerConfig.ServerDomain == "*")
+                    {
+                        if (Program.IsHttps())
+                            prot = "https";
+                        if (Program.Config.WebServerConfig.Port == 80)
+                            remotePath = prot + "://" + Program.Config.WebServerConfig.BindAddress + "/valknut/clients/" + relativePath;
+                        else
+                            remotePath = prot + "://" + Program.Config.WebServerConfig.BindAddress + ":" + Program.Config.WebServerConfig.Port + "/valknut/clients/" + relativePath;
+                    }
                     else
-                        remotePath = prot + "://" + Program.Config.WebServerConfig.BindAddress + ":" + Program.Config.WebServerConfig.Port + "/valknut/clients/" + relativePath;
+                    {
+                        remotePath = prot + "://" + Program.Config.WebServerConfig.ServerDomain + "/valknut/clients/" + relativePath;
+                    }
 
                     remotePath = remotePath.Replace("\\", "/");
 
-                    return new MinecraftFile() { Hash = HashBytesToString(hash), Path = remotePath };
+                    return new MinecraftFile() { Hash = HashBytesToString(hash), Path = remotePath, Size = fileStream.Length };
                 }
             }
         }

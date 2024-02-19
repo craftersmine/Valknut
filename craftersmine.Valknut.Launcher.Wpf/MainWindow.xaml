@@ -13,6 +13,7 @@
         TextElement.FontSize="14"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Background="{DynamicResource MaterialDesignPaper}" ResizeMode="CanMinimize"
+        Loaded="OnWindowLoaded"
         >
     <materialDesign:DialogHost x:Name="dialogHost" IsOpen="False" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" CloseOnClickAway="True">
         <materialDesign:DialogHost.DialogContent>

@@ -50,6 +50,7 @@ namespace craftersmine.Valknut.Server
             wsCfg.Port = 80;
             wsCfg.Certificate = "";
             wsCfg.EnableHttps = false;
+            wsCfg.ServerDomain = "*";
 
             dbCfg.Host = "localhost";
             dbCfg.Port = 3306;
@@ -81,8 +82,10 @@ namespace craftersmine.Valknut.Server
         public int Port { get; set; }
         [JsonProperty("certificateFilepath")]
         public string Certificate { get; set; }
-        [JsonProperty("enavleHttps")]
+        [JsonProperty("enableHttps")]
         public bool EnableHttps { get; set; }
+        [JsonProperty("serverDomain")]
+        public string ServerDomain { get; set; }
     }
 
     public sealed class DbConnectionConfig

@@ -52,7 +52,7 @@ namespace craftersmine.Valknut.Launcher.Authentication
 
             var requestValue = JsonConvert.SerializeObject(validationRequest);
 
-            var response = await HttpHelper.MakePostRequest(uri, requestValue);
+            var response = await HttpHelper.MakePostRequest(uri, requestValue).ConfigureAwait(false);
 
             if (response.IsSuccessful)
                 return true;

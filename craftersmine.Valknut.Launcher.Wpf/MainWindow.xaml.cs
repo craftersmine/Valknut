@@ -35,6 +35,7 @@ namespace craftersmine.Valknut.Launcher.Wpf
             InitializeComponent();
             SnackbarMessageQueue = new SnackbarMessageQueue();
             snackbar.MessageQueue = SnackbarMessageQueue;
+
             if (Settings.Default.RememberUser)
             {
                 loginAnimation.Visibility = Visibility.Visible;
@@ -44,36 +45,7 @@ namespace craftersmine.Valknut.Launcher.Wpf
                 registerButton.IsEnabled = false;
                 loginButton.IsEnabled = false;
                 rememberMe.IsEnabled = false;
-                try
-                {
-                    var isValidated = Authenticator.ValidateUser(Settings.Default.AccessToken, Settings.Default.ClientToken).Result;
-                    if (isValidated)
-                    {
-                        welcomeLabel.Text = string.Format(Properties.Resources.PlayFrame_WelcomeBox, Settings.Default.Username);
-                        logoutMenu.IsEnabled = true;
-                        settingsMenu.IsEnabled = true;
-                        loginButton.SetValue(ButtonProgressAssist.ValueProperty, true);
-                        SnackbarMessageQueue.Enqueue("Successfully logged in as " + Settings.Default.Username);
-                        AnimateFramesSwitch(loginFrame, playFrame);
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "Validation", "Unable to validate user access token!");
-                    ShowMessage(Properties.Resources.Message_Error_Title, ex.Message);
-                    emailBox.IsEnabled = true;
-                    passwordBox.IsEnabled = true;
-                    registerButton.IsEnabled = true;
-                    loginButton.IsEnabled = true;
-                    rememberMe.IsEnabled = true;
-                    loginButton.SetValue(MaterialDesignThemes.Wpf.ButtonProgressAssist.IsIndeterminateProperty, false);
-                }
-                
             }
-            settingsMenu.IsEnabled = false;
-            logoutMenu.IsEnabled = false;
-            rememberMe.IsChecked = Settings.Default.RememberUser;
         }
 
         private async void loginButton_Click(object sender, RoutedEventArgs e)
@@ -218,6 +190,49 @@ namespace craftersmine.Valknut.Launcher.Wpf
         private void settingsCancelButton_Click(object sender, RoutedEventArgs e)
         {
             dialogHost.IsOpen = false;
+        }
+
+        private void OnWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            if (Settings.Default.RememberUser)
+            {
+                loginAnimation.Visibility = Visibility.Visible;
+                emailBox.Text = Settings.Default.UserEmail;
+                emailBox.IsEnabled = false;
+                passwordBox.IsEnabled = false;
+                registerButton.IsEnabled = false;
+                loginButton.IsEnabled = false;
+                rememberMe.IsEnabled = false;
+                try
+                {
+                    var isValidated = Authenticator.ValidateUser(Settings.Default.AccessToken, Settings.Default.ClientToken).Result;
+                    if (isValidated)
+                    {
+                        welcomeLabel.Text = string.Format(Properties.Resources.PlayFrame_WelcomeBox, Settings.Default.Username);
+                        logoutMenu.IsEnabled = true;
+                        settingsMenu.IsEnabled = true;
+                        loginButton.SetValue(ButtonProgressAssist.IsIndeterminateProperty, true);
+                        SnackbarMessageQueue.Enqueue("Successfully logged in as " + Settings.Default.Username);
+                        AnimateFramesSwitch(loginFrame, playFrame);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Validation", "Unable to validate user access token!");
+                    ShowMessage(Properties.Resources.Message_Error_Title, ex.Message);
+                    emailBox.IsEnabled = true;
+                    passwordBox.IsEnabled = true;
+                    registerButton.IsEnabled = true;
+                    loginButton.IsEnabled = true;
+                    rememberMe.IsEnabled = true;
+                    loginButton.SetValue(MaterialDesignThemes.Wpf.ButtonProgressAssist.IsIndeterminateProperty, false);
+                }
+                
+            }
+            settingsMenu.IsEnabled = false;
+            logoutMenu.IsEnabled = false;
+            rememberMe.IsChecked = Settings.Default.RememberUser;
         }
     }
 }

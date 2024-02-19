@@ -24,7 +24,7 @@
 
         <ComboBox x:Name="clientsCombobox" Margin="0,0,0,10" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" materialDesign:ComboBoxAssist.ShowSelectedItem="True"/>
 
-        <Button x:Name="launchButton" Margin="0,0,0,10" Click="launchButton_Click">
+        <Button x:Name="launchButton" Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal">
                 <materialDesign:PackIcon Kind="Play" Margin="0 0 10 0"/>
                 <TextBlock Text="{x:Static res:Resources.PlayFrame_Button_Launch}"/>

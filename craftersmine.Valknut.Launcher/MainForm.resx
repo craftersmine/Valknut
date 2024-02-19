@@ -595,13 +595,13 @@
     <value>True</value>
   </data>
   <data name="materialLabel3.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Roboto Condensed, 8.25pt</value>
+    <value>Roboto, 11pt</value>
   </data>
   <data name="materialLabel3.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 520</value>
   </data>
   <data name="materialLabel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 13</value>
+    <value>245, 19</value>
   </data>
   <data name="materialLabel3.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>

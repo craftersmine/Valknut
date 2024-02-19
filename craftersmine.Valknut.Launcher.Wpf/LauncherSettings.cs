@@ -23,12 +23,12 @@ namespace craftersmine.Valknut.Launcher
         /// <summary>
         /// Gets launcher server hostname. Only domain, ex. example.com
         /// </summary>
-        public static string ServerHostname { get; } = "localhost";
+        public static string ServerHostname { get; } = "server.local";
 
         /// <summary>
         /// Gets launcher server port. Leave 80 if you are using default port or using https
         /// </summary>
-        public static int ServerPort { get; } = 80;
+        public static int ServerPort { get; } = 8690;
 
         /// <summary>
         /// Gets registration link

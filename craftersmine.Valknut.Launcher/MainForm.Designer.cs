@@ -41,11 +41,11 @@ namespace craftersmine.Valknut.Launcher
             this.waitAnim = new MaterialSkin.Controls.MaterialProgressBar();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.launcherPanel = new System.Windows.Forms.Panel();
-            this.loggedInAs = new MaterialSkin.Controls.MaterialLabel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.clientSelect = new MaterialSkin.Controls.MaterialLabel();
-            this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialFlatButton1 = new MaterialSkin.Controls.MaterialFlatButton();
+            this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.clientSelect = new MaterialSkin.Controls.MaterialLabel();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.loggedInAs = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             this.loginForm.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -170,28 +170,15 @@ namespace craftersmine.Valknut.Launcher
             resources.ApplyResources(this.launcherPanel, "launcherPanel");
             this.launcherPanel.Name = "launcherPanel";
             // 
-            // loggedInAs
+            // materialFlatButton1
             // 
-            this.loggedInAs.Depth = 0;
-            resources.ApplyResources(this.loggedInAs, "loggedInAs");
-            this.loggedInAs.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.loggedInAs.MouseState = MaterialSkin.MouseState.HOVER;
-            this.loggedInAs.Name = "loggedInAs";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.comboBox1, "comboBox1");
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Name = "comboBox1";
-            // 
-            // clientSelect
-            // 
-            resources.ApplyResources(this.clientSelect, "clientSelect");
-            this.clientSelect.Depth = 0;
-            this.clientSelect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.clientSelect.MouseState = MaterialSkin.MouseState.HOVER;
-            this.clientSelect.Name = "clientSelect";
+            resources.ApplyResources(this.materialFlatButton1, "materialFlatButton1");
+            this.materialFlatButton1.Depth = 0;
+            this.materialFlatButton1.Icon = global::craftersmine.Valknut.Launcher.Properties.Resources.outline_settings_black_24dp;
+            this.materialFlatButton1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialFlatButton1.Name = "materialFlatButton1";
+            this.materialFlatButton1.Primary = false;
+            this.materialFlatButton1.UseVisualStyleBackColor = true;
             // 
             // materialRaisedButton1
             // 
@@ -203,21 +190,34 @@ namespace craftersmine.Valknut.Launcher
             this.materialRaisedButton1.Primary = true;
             this.materialRaisedButton1.UseVisualStyleBackColor = true;
             // 
-            // materialFlatButton1
+            // clientSelect
             // 
-            resources.ApplyResources(this.materialFlatButton1, "materialFlatButton1");
-            this.materialFlatButton1.Depth = 0;
-            this.materialFlatButton1.Icon = global::craftersmine.Valknut.Launcher.Properties.Resources.outline_settings_black_24dp;
-            this.materialFlatButton1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialFlatButton1.Name = "materialFlatButton1";
-            this.materialFlatButton1.Primary = false;
-            this.materialFlatButton1.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.clientSelect, "clientSelect");
+            this.clientSelect.Depth = 0;
+            this.clientSelect.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.clientSelect.MouseState = MaterialSkin.MouseState.HOVER;
+            this.clientSelect.Name = "clientSelect";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.comboBox1, "comboBox1");
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Name = "comboBox1";
+            // 
+            // loggedInAs
+            // 
+            this.loggedInAs.Depth = 0;
+            resources.ApplyResources(this.loggedInAs, "loggedInAs");
+            this.loggedInAs.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.loggedInAs.MouseState = MaterialSkin.MouseState.HOVER;
+            this.loggedInAs.Name = "loggedInAs";
             // 
             // materialLabel3
             // 
             resources.ApplyResources(this.materialLabel3, "materialLabel3");
             this.materialLabel3.Depth = 0;
-            this.materialLabel3.ForeColor = System.Drawing.Color.Silver;
+            this.materialLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel3.Name = "materialLabel3";
             // 
